@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking</title>
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(104761673, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/104761673" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            text-align: center;
+            color: white;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        p {
+            font-size: 16px;
+            opacity: 0.9;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>Обработка завершена</h1>
+        <p>Возвращаемся в бот... <span class="loader"></span></p>
+    </div>
+
+    <script>
+        // URL parametrlardan goal va user_id ni olish
+        const urlParams = new URLSearchParams(window.location.search);
+        const goal = urlParams.get('goal') || 'success';
+        const userId = urlParams.get('user_id');
+        
+        // Metrika yuklanguncha kutish
+        function waitForMetrika(callback) {
+            if (typeof ym !== 'undefined') {
+                callback();
+            } else {
+                setTimeout(() => waitForMetrika(callback), 100);
+            }
+        }
+        
+        // Goal ni yuborish
+        waitForMetrika(() => {
+            console.log(`Sending goal: ${goal} for user: ${userId}`);
+            
+            // Goal ni yuborish
+            ym(104761673, 'reachGoal', goal, {
+                user_id: userId
+            });
+            
+            console.log('Goal sent successfully!');
+            
+            // 2 soniyadan keyin Telegram botga qaytish
+            setTimeout(() => {
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.close();
+                } else {
+                    window.location.href = 'https://t.me/beautyclientsbot';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
