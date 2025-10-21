@@ -5,7 +5,6 @@
     <title>Оплата успешно завершена</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -19,7 +18,18 @@
 
         ym(87546909, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true});
     </script>
-    <!-- /Yandex.Metrika counter -->
+
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104764074', 'ym');
+
+        ym(104764074, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/104764074" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
     <style>
         body {
@@ -69,17 +79,16 @@
     </div>
 
     <script>
-        // ⏳ URL dan user ID ni olish (agar mavjud bo‘lsa)
         const params = new URLSearchParams(window.location.search);
         const user = params.get('user');
 
-        // 📊 Goal yuborish
+        ym(87546909, 'reachGoal', 'visit', { user_id: user });
         ym(87546909, 'reachGoal', 'success', { user_id: user });
 
-        // 🔗 Telegram bot manzili
+        ym(104764074, 'reachGoal', 'success', { user_id: user });
+
         const telegramBot = "https://t.me/beautyclientsbot";
 
-        // ⏰ 3 sekunddan keyin redirect
         setTimeout(() => {
             window.location.href = telegramBot;
         }, 3000);
